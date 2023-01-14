@@ -32,8 +32,8 @@ INSERT INTO Department (name) VALUES
 
 -- APPROACH 1: JOIN + Subquery
 
--- A good starting place for this problem is to just select the end data without the problem conditions.
--- We need information from both tables so we need to JOIN.
+-- A good starting place for this problem is to just select the end data without the problem conditions
+-- We need information from both tables so we need to JOIN
 
 SELECT
     d.name AS Department, e.name AS Employee, e.salary AS Salary
@@ -44,12 +44,12 @@ FROM
 ;
 
 -- Now we move on to the condition, only selecting employees with salaries in the top 3
--- unique salaries for their department.
--- Ideally, we want to just use a WHERE clause.
--- Now the problem is how to we come up with the appropriate Subquery.
+-- unique salaries for their department
+-- Ideally, we want to just use a WHERE clause
+-- Now the problem is how to we come up with the appropriate Subquery
 
--- The trick is to count the number of bigger salaries to determine the ranking.
--- We do this by a self-join and come up with our accepted solution.
+-- The trick is to count the number of bigger salaries to determine the ranking
+-- We do this by a self-join and come up with our accepted solution
 -- (Note the change from e to e1)
 
 SELECT
@@ -72,10 +72,10 @@ WHERE
 
 -- APPROACH 2: WINDOW FUNCTION
 
--- Window functions are very useful, they make this problem a lot easier.
+-- Window functions are very useful, they make this problem a lot easier
 -- If we find ourselves wanting to group and order but want to avoid a GROUP BY clause,
--- a window function might be useful.
--- Here we want to group by departmentId and rank by UNIQUE salary, so we use RANK_DENSE.
+-- a window function might be useful
+-- Here we want to group by departmentId and rank by UNIQUE salary, so we use RANK_DENSE
 
 SELECT Department, Employee, Salary
 FROM
