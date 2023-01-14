@@ -3,7 +3,6 @@
 
 -- We begin by loading in our example.
 
--- @block
 CREATE TABLE Employee (
     id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL UNIQUE,
@@ -11,9 +10,7 @@ CREATE TABLE Employee (
     departmentId INT
 );
 
--- @block
-INSERT INTO Employee (name, salary, departmentId)
-VALUES
+INSERT INTO Employee (name, salary, departmentId) VALUES
     ('Joe', 85000, 1),
     ('Henry', 80000, 2),
     ('Sam', 60000, 2),
@@ -23,26 +20,21 @@ VALUES
     ('Will', 70000, 1)
 ;
 
--- @block
 CREATE TABLE Department (
     id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL UNIQUE
 );
 
--- @block
-INSERT INTO Department (name)
-VALUES
+INSERT INTO Department (name) VALUES
     ('IT'),
     ('Sales')
 ;
 
--- @block
 -- APPROACH 1: JOIN + Subquery
 
 -- A good starting place for this problem is to just select the end data without the problem conditions.
 -- We need information from both tables so we need to JOIN.
 
--- @block
 SELECT
     d.name AS Department, e.name AS Employee, e.salary AS Salary
 FROM
@@ -51,8 +43,8 @@ FROM
     Department d On e.departmentId = d.id
 ;
 
--- @block
--- Now we move on to the condition, only selecting employees with salaries in the top 3 unique salaries for their department.
+-- Now we move on to the condition, only selecting employees with salaries in the top 3
+-- unique salaries for their department.
 -- Ideally, we want to just use a WHERE clause.
 -- Now the problem is how to we come up with the appropriate Subquery.
 
@@ -60,7 +52,6 @@ FROM
 -- We do this by a self-join and come up with our accepted solution.
 -- (Note the change from e to e1)
 
--- @block
 SELECT
     d.name AS Department, e1.name AS Employee, e1.salary AS Salary
 FROM
@@ -79,8 +70,29 @@ WHERE
         )
 ;
 
--- @block
 -- APPROACH 2: WINDOW FUNCTION
 
--- Window functions are very useful so if you're getting comfortable with SQL feel free to start learning them.
--- They make this problem a lot easier.
+-- Window functions are very useful, they make this problem a lot easier.
+-- If we find ourselves wanting to group and order but want to avoid a GROUP BY clause,
+-- a window function might be useful.
+-- Here we want to group by departmentId and rank by UNIQUE salary, so we use RANK_DENSE.
+
+SELECT Department, Employee, Salary
+FROM
+	(SELECT
+		d.name AS Department,
+        e.name AS Employee,
+        e.salary AS Salary,
+        DENSE_RANK() OVER (
+			PARTITION BY d.name
+            ORDER BY e.salary DESC
+		) AS drk
+	FROM
+		Employee e
+			JOIN
+		Department d ON e.departmentId = d.id
+	) AS T
+WHERE
+	T.drk <= 3
+;
+
