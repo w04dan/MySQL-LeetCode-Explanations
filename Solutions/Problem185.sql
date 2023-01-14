@@ -1,7 +1,7 @@
 -- Solution: LeetCode 185. Department Top Three Salaries
--- This solution is for MySQL 8 (noting differences with other DBMS)
+-- This solution is for MySQL 8
 
--- We begin by loading in our example.
+-- We begin by loading in our example. (Skip to 33 for solutions if you are working in LeetCode)
 
 CREATE TABLE Employee (
     id INT PRIMARY KEY AUTO_INCREMENT,
