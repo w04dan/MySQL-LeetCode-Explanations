@@ -1,7 +1,7 @@
 -- Solution: LeetCode 1949. Strong Friendship
 -- This solution is for MySQL 8
 
--- We begin by loading in our example. (Skip to 16 for solutions if you are working in LeetCode)
+-- We begin by loading in our example. (Skip to 27 for solutions if you are working in LeetCode)
 
 CREATE TABLE Friendship (
 	user1_id INT NOT NULL,
