@@ -54,7 +54,7 @@ WHERE
 	(id + 2, num) in (SELECT * FROM Logs)
 ;
 
--- APPROACH: WINDOW FUNCTION
+-- APPROACH 3: WINDOW FUNCTION
 
 -- Yet, in all these approaches we don't take advantage that the id is AUTO_INCREMENT
 -- In the above approaches we search through our tables for what we are looking for
